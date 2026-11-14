@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Name des Benachrichtigungs-Kanals für Downloads (in den Android-Einstellungen sichtbar). -->
+    <string name="download_channel_name">Downloads</string>
+
+    <!-- Homescreen-Widgets: Namen und Beschreibungen in der Widget-Auswahl. -->
+    <string name="widget_small_label">Player (small)</string>
+    <string name="widget_small_description">Cover and play/pause</string>
+    <string name="widget_medium_label">Player</string>
+    <string name="widget_medium_description">Current song with playback controls</string>
+    <string name="widget_large_label">Player (large)</string>
+    <string name="widget_large_description">Large cover, progress and playback controls</string>
+    <string name="widget_quick_label">Quick access</string>
+    <string name="widget_quick_description">Jump back into recently played albums and playlists</string>
+
+    <!-- Widget-Inhalte -->
+    <string name="widget_nothing_playing">Nothing playing</string>
+    <string name="widget_quick_title">Recently played</string>
+    <string name="widget_quick_empty">Nothing here yet. Start some music in Nocturne.</string>
+    <!-- Platzhalter in der Vorschau der Widget-Auswahl. -->
+    <string name="widget_preview_title">Song title</string>
+    <string name="widget_preview_artist">Artist</string>
+
+    <!-- Beschreibungen für Bildschirmleser (TalkBack). -->
+    <string name="cd_play">Play</string>
+    <string name="cd_pause">Pause</string>
+    <string name="cd_next">Next</string>
+    <string name="cd_previous">Previous</string>
+    <string name="cd_open_app">Open Nocturne</string>
+</resources>

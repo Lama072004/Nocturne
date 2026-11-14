@@ -1,8 +1,8 @@
-# Musicplayer
+# Nocturne
 
 Deutsch | [English](#english)
 
-> **Status: in Planung.** Das Projekt ist aktuell nur das Flutter-Grundgerüst. Dieses Dokument beschreibt das Ziel, nicht den heutigen Stand.
+> **Status: in Arbeit.** Was schon gebaut ist und was noch fehlt, steht in [docs/STATUS.md](docs/STATUS.md). Das vollständige Ziel steht in [docs/SPEC.md](docs/SPEC.md).
 
 Ein Streaming-Client für den eigenen **[Navidrome](https://www.navidrome.org/)**-Server, der aussieht und sich bedient wie Spotify. Die Musik bleibt auf dem eigenen Server, die App ist nur die Oberfläche dafür.
 
@@ -51,9 +51,9 @@ Noch nicht festgelegt. Falls eine bestehende App als Grundlage dient, gilt deren
 
 ## English
 
-# Musicplayer
+# Nocturne
 
-> **Status: planned.** The project is currently just the Flutter scaffold. This document describes the goal, not the current state.
+> **Status: in progress.** What is built and what is still missing is listed in [docs/STATUS.md](docs/STATUS.md) (German). The full goal is in [docs/SPEC.md](docs/SPEC.md) (German).
 
 A streaming client for your own **[Navidrome](https://www.navidrome.org/)** server that looks and feels like Spotify. The music stays on your own server; the app is just the interface.
 

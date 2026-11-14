@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Fläche des großen Widgets, die per setColorFilter in der gedämpften
+     Cover-Farbe eingefärbt wird (siehe HomeWidgets.mutedColor). Weiß, damit
+     der Farbfilter die Farbe exakt übernimmt; runde Ecken wie widget_bg. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#FFFFFFFF" />
+    <corners android:radius="@dimen/widget_radius" />
+</shape>

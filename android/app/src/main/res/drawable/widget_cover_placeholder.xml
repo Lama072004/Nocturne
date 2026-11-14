@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Platzhalter, solange kein Cover da ist: Musiknote auf dunkler Fläche. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <path
+        android:fillColor="#FF2A2933"
+        android:pathData="M0,0h48v48h-48z" />
+    <path
+        android:fillColor="#99FFFFFF"
+        android:pathData="M24,13v12.55A4.97,4.97 0,0 0,21.5 25c-2.76,0 -5,2.24 -5,5s2.24,5 5,5 5,-2.24 5,-5V18h5v-5h-7.5z" />
+</vector>

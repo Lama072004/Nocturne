@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Eckenradius der Widgets bis Android 11. Ab Android 12 siehe values-v31. -->
+    <dimen name="widget_radius">16dp</dimen>
+    <!-- Radius für Inhalte im Widget (Cover, Kacheln). -->
+    <dimen name="widget_inner_radius">8dp</dimen>
+</resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Adaptives Icon: Android schneidet Hintergrund + Vordergrund selbst in die
+  Form des jeweiligen Launchers (Kreis, Squircle ...). Weil alles Vektoren
+  sind, braucht es keine PNG-Dateien in mehreren Groessen.
+-->
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@drawable/ic_launcher_background" />
+    <foreground android:drawable="@drawable/ic_launcher_foreground" />
+    <monochrome android:drawable="@drawable/ic_launcher_monochrome" />
+</adaptive-icon>

@@ -1,0 +1,49 @@
+[package]
+name = "rust_lib_musicplayer"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+# cdylib  -> .so für Android (wird von Flutter/Cargokit in die APK gepackt)
+# staticlib -> für iOS/macOS, falls später gebraucht
+# lib     -> damit `cargo test` die Logik direkt testen kann
+crate-type = ["cdylib", "staticlib", "lib"]
+
+[dependencies]
+# Version MUSS exakt zur Dart-Seite (pubspec.yaml) und zum Codegen passen.
+flutter_rust_bridge = "=2.11.1"
+anyhow = "1"
+# Nur gebraucht, um die Protokoll-Stufe zu begrenzen (siehe api/app.rs).
+log = "0.4"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+# HTTP-Client. `rustls` statt OpenSSL: OpenSSL für Android zu bauen ist
+# mühsam und fehleranfällig, rustls ist reines Rust (+ ring) und baut überall.
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+tokio = { version = "1", features = ["rt-multi-thread"] }
+# Subsonic-Anmeldung: token = md5(passwort + salt)
+md-5 = "0.10"
+hex = "0.4"
+rand = "0.8"
+url = "2"
+# Lokale Datenbank (Hörverlauf, Downloads, Scrobble-Warteschlange).
+# "bundled" kompiliert SQLite mit ein: gleiche Version auf jedem Gerät und
+# keine Abhängigkeit von der SQLite-Version des jeweiligen Android.
+# Verschlüsselung der gespeicherten Anmeldung (AES-256-GCM, reines Rust).
+aes-gcm = "0.10"
+rusqlite = { version = "0.32", features = ["bundled"] }
+
+# JNI-Bindungen für die direkte Verbindung Kotlin -> Rust im Audio-Pfad
+# (siehe src/jni_bridge.rs). Nur auf Android nötig, deshalb nur dort gebaut.
+[target.'cfg(target_os = "android")'.dependencies]
+jni = "0.21"
+
+[profile.release]
+# Kleinere und schnellere .so: Link-Time-Optimierung und nur eine Codegen-Einheit.
+lto = true
+codegen-units = 1
+# Debug-Symbole raus -> deutlich kleinere APK.
+strip = true
+
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(frb_expand)'] }

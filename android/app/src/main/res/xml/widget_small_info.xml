@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Kleines Player-Widget. Ziel 2x1, auch auf 1x1 verkleinerbar.
+  updatePeriodMillis="0": KEINE regelmäßige Aktualisierung (Akku). Neu
+  gezeichnet wird nur auf Ereignisse aus dem PlaybackService.
+  targetCellWidth/Height, previewLayout und description wirken ab Android 12;
+  ältere Launcher nutzen minWidth/minHeight (n Zellen = 70*n - 30 dp).
+-->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:description="@string/widget_small_description"
+    android:initialLayout="@layout/widget_small"
+    android:minWidth="40dp"
+    android:minHeight="40dp"
+    android:minResizeWidth="40dp"
+    android:minResizeHeight="40dp"
+    android:previewLayout="@layout/widget_small"
+    android:resizeMode="horizontal|vertical"
+    android:targetCellWidth="2"
+    android:targetCellHeight="1"
+    android:updatePeriodMillis="0"
+    android:widgetCategory="home_screen" />

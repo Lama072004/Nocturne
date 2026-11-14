@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Meldet die App bei Android Auto als Medien-App an.
+  Ohne diese Datei (und den Verweis im Manifest) taucht die App im Auto nicht auf,
+  selbst wenn der MediaLibraryService korrekt läuft.
+-->
+<automotiveApp>
+    <uses name="media" />
+</automotiveApp>
