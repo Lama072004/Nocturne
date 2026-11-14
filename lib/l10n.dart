@@ -72,6 +72,13 @@ class L {
   String get clearQueue => _('Leeren', 'Clear');
   String get addedToQueue =>
       _('Zur Warteschlange hinzugefügt', 'Added to queue');
+
+  /// Kurzform für die Pille hinter dem Titelnamen ("Song · in Warteschlange").
+  String get addedToQueueShort => _('in Warteschlange', 'queued');
+  String tracksAddedToQueue(int n) => _(
+    '$n Titel in Warteschlange',
+    n == 1 ? '1 track queued' : '$n tracks queued',
+  );
   String get removedFromQueue =>
       _('Aus Warteschlange entfernt', 'Removed from queue');
   String get actionNotReady =>
@@ -373,8 +380,10 @@ class L {
   // Kontextmenü
   String get moreOptions => _('Weitere Aktionen', 'More options');
   String get addFavorite => _('Zu Favoriten hinzufügen', 'Add to favorites');
-  String get removeFavorite => _('Aus Favoriten entfernen', 'Remove from favorites');
-  String get removeFromQueueAction => _('Aus Warteschlange entfernen', 'Remove from queue');
+  String get removeFavorite =>
+      _('Aus Favoriten entfernen', 'Remove from favorites');
+  String get removeFromQueueAction =>
+      _('Aus Warteschlange entfernen', 'Remove from queue');
   String get undo => _('Rückgängig', 'Undo');
 
   // Profil
@@ -385,8 +394,9 @@ class L {
   String get online => _('Online', 'Online');
   String get notLoggedIn => _('Nicht angemeldet', 'Not signed in');
   String get logoutConfirm => _(
-      'Abmelden? Heruntergeladene Titel bleiben auf dem Gerät.',
-      'Log out? Downloaded tracks stay on the device.');
+    'Abmelden? Heruntergeladene Titel bleiben auf dem Gerät.',
+    'Log out? Downloaded tracks stay on the device.',
+  );
 
   // Home
   String get goodMorning => _('Guten Morgen', 'Good morning');

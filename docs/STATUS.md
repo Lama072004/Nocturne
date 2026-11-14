@@ -125,7 +125,8 @@ Im Android-Emulator `nocturne_test` (x86_64, 4-KB-Seiten) gegen `demo.navidrome.
 
 - Anmeldung; alle Seiten der Oberfläche in hellem und dunklem Design
 - Wiedergabe, Benachrichtigung und System-Medienkarte mit Cover, Medientasten
-- Warteschlange: Hinzufügen per Wischen, Rückgängig, Verschieben, Leeren
+- Warteschlange: Hinzufügen per Wischen (kurze Bestätigung, höchstens 1 s, ohne „Rückgängig“), Entfernen mit Rückgängig, Verschieben, Leeren
+- Vollbild-Player: Steuerung direkt unter dem Cover (Einhand-Bedienung), auch auf kleinem Bildschirm (720×1280) ohne Überlauf
 - App hart beendet → neu geöffnet → Mini-Player zeigt den letzten Titel, „Play“ setzt an der gemerkten Stelle fort
 - Oberfläche aus den letzten Apps gewischt, Musik läuft weiter, Titelwechsel per Medientaste → Warteschlange stimmt nach dem Wiederöffnen
 - Widgets „Player groß“ und „Schnellzugriff“ auf dem Startbildschirm: Anzeige, Knöpfe, Start ohne laufende App, Album aus dem Schnellzugriff abspielen

@@ -8,6 +8,7 @@ import '../src/rust/api/models.dart';
 import '../src/rust/api/settings.dart';
 import 'screens/album_screen.dart';
 import 'screens/artist_screen.dart';
+import 'widgets/quick_hint.dart';
 
 /// Kurze Meldung am unteren Rand (wie die "Toast"-Hinweise bei Spotify).
 void showToast(BuildContext context, String text) {
@@ -56,7 +57,9 @@ Future<void> runSwipeAction(
           content: Text(text),
           duration: Duration(milliseconds: onUndo == null ? 1400 : 4000),
           behavior: SnackBarBehavior.floating,
-          action: onUndo == null ? null : SnackBarAction(label: l.undo, onPressed: onUndo),
+          action: onUndo == null
+              ? null
+              : SnackBarAction(label: l.undo, onPressed: onUndo),
         ),
       );
   }
@@ -74,22 +77,21 @@ Future<void> runSwipeAction(
         // Leichtes Vibrieren als Bestätigung: Die Aktion wird meist per
         // Wischgeste ausgelöst, ohne dass man auf den Hinweis schaut.
         HapticFeedback.lightImpact();
-        toast(
-          l.addedToQueue,
-          // Rückgängig nimmt genau die eben angehängten Titel wieder weg.
-          // Sie stehen am Ende der eigenen Warteschlange. (Lief vorher
-          // nichts, wurden die Titel sofort abgespielt – dann gibt es
-          // nichts zurückzunehmen.)
-          onUndo: !wasPlaying
-              ? null
-              : () async {
-                  for (var i = 0; i < added.length; i++) {
-                    final userLen = app.player.snapshot?.userQueue.length ?? 0;
-                    if (userLen == 0) break;
-                    await app.player.removeUpcoming(userLen - 1);
-                  }
-                },
-        );
+        // Kleine Pille für höchstens 1 s statt Snackbar (Wunsch des Nutzers,
+        // siehe showQuickHint). Kein "Rückgängig"-Knopf mehr: In einer
+        // Sekunde trifft ihn niemand. Zurücknehmen geht in der
+        // Warteschlange per Wischen. Lief vorher nichts, startet die
+        // Wiedergabe sofort – dann braucht es keinen Hinweis.
+        final hintContext = navigator.context;
+        if (wasPlaying && hintContext.mounted) {
+          showQuickHint(
+            hintContext,
+            added.length == 1
+                ? '${added.first.title} · ${l.addedToQueueShort}'
+                : l.tracksAddedToQueue(added.length),
+            icon: Icons.queue_music,
+          );
+        }
 
       case SwipeAction.removeFromQueue:
         if (queueIndex != null) {
@@ -97,7 +99,9 @@ Future<void> runSwipeAction(
           final snap = app.player.snapshot;
           final userLen = snap?.userQueue.length ?? 0;
           final upcoming = [...?snap?.userQueue, ...?snap?.context];
-          final removed = queueIndex < upcoming.length ? upcoming[queueIndex].track : null;
+          final removed = queueIndex < upcoming.length
+              ? upcoming[queueIndex].track
+              : null;
           await app.player.removeUpcoming(queueIndex);
           HapticFeedback.lightImpact();
           toast(

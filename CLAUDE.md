@@ -33,6 +33,8 @@ cd android && ./gradlew :app:testDebugUnitTest
 flutter build apk --debug --target-platform android-arm64,android-x64
 ```
 
+Einen laufenden `flutter build` nicht abbrechen. Passiert es doch, danach `build/rust_lib_musicplayer/jniLibs` und `.dart_tool/flutter_build/` löschen: Sonst schlägt der nächste Bau fehl („PathExistsException“) oder – tückischer – er läuft durch, übersetzt den Dart-Code aber nicht neu, und die APK enthält den alten Stand. Prüfen lässt sich das, indem man in `assets/flutter_assets/kernel_blob.bin` der APK nach einem neuen Klassennamen sucht.
+
 Bricht Gradle unter Windows mit "Unable to establish loopback connection" ab, vorher setzen:
 
 ```bash

@@ -252,17 +252,49 @@ class _PlayerScreenState extends State<PlayerScreen> {
               ? const SizedBox.shrink()
               : Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
+                  // AUFTEILUNG (Einhand-Bedienung): Cover direkt unter die
+                  // Kopfzeile, Titel und Knöpfe direkt unter das Cover, und
+                  // ALLER übrige Platz kommt nach unten.
+                  //
+                  // Vorher stand das Cover mittig in einer dehnbaren Fläche:
+                  // Der freie Platz lag über UND unter dem Cover, und die
+                  // Knöpfe klebten am unteren Bildschirmrand – mit dem
+                  // Daumen schlecht zu erreichen, weil man das Handy dafür
+                  // umgreifen muss. Jetzt liegen sie spürbar höher.
+                  //
+                  // Wie hoch genau? Der Nutzer wollte die Mitte zwischen der
+                  // alten Lage (Play-Knopf bei 88 % der Höhe) und "ganz
+                  // nach oben" (69 %), also etwa 78 %. Das ergibt sich, wenn
+                  // der freie Platz zur HÄLFTE über dem Cover und zur Hälfte
+                  // unter den Knöpfen liegt. Die Rechnung macht
+                  // [_PlayerBodyLayout] (siehe dort, warum nicht mit
+                  // Column/Spacer).
                   child: Column(
                     children: [
                       _buildHeader(l, theme, snap?.contextName, track),
-                      // Cover nimmt den Rest; nur es schrumpft bei Platzmangel.
-                      Expanded(child: _buildCover(track)),
-                      const SizedBox(height: 12),
-                      _buildTitleRow(theme, track),
-                      _buildProgress(theme),
-                      _buildControls(l, theme),
-                      _buildBottomRow(l, scheme),
-                      const SizedBox(height: 4),
+                      Expanded(
+                        child: CustomMultiChildLayout(
+                          delegate: _PlayerBodyLayout(),
+                          children: [
+                            LayoutId(
+                              id: _PlayerSlot.cover,
+                              child: _buildCover(track),
+                            ),
+                            LayoutId(
+                              id: _PlayerSlot.controls,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  _buildTitleRow(theme, track),
+                                  _buildProgress(theme),
+                                  _buildControls(l, theme),
+                                  _buildBottomRow(l, scheme),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -319,7 +351,10 @@ class _PlayerScreenState extends State<PlayerScreen> {
     return LayoutBuilder(
       builder: (context, c) {
         final size = math.max(0.0, c.biggest.shortestSide);
-        return Center(
+        // Genau so groß wie das Cover (nicht wie die ganze Fläche), damit
+        // die Knöpfe direkt darunter anschließen.
+        return SizedBox.square(
+          dimension: size,
           child: GestureDetector(
             behavior: HitTestBehavior.opaque,
             onHorizontalDragStart: (d) {
@@ -521,4 +556,56 @@ class _PlayerScreenState extends State<PlayerScreen> {
       ],
     );
   }
+}
+
+/// Die zwei Blöcke unter der Kopfzeile des Players.
+enum _PlayerSlot { cover, controls }
+
+/// Ordnet Cover und Steuerung im Player an.
+///
+/// Regeln:
+///  1. Die Steuerung (Titel, Fortschritt, Knöpfe, untere Reihe) bekommt
+///     immer ihre volle Höhe – sie wird nie gequetscht.
+///  2. Das Cover ist quadratisch und so groß wie möglich, höchstens so breit
+///     wie der Bildschirm. Ist es zu wenig Platz, schrumpft nur das Cover.
+///  3. Der übrige Platz wird HALBIERT: eine Hälfte über das Cover, die
+///     andere unter die Steuerung. Damit liegen die Knöpfe genau in der
+///     Mitte zwischen "ganz unten am Rand" und "direkt unter der
+///     Kopfzeile" – gut mit dem Daumen erreichbar.
+///
+/// WARUM nicht einfach Column mit Spacer/Flexible? Mit Flex-Anteilen hängt
+/// die Aufteilung davon ab, wie viel Platz das Cover "nicht braucht", und
+/// lässt sich nur ungefähr steuern. Hier wird die Steuerung zuerst gemessen
+/// und dann exakt gerechnet – das Ergebnis ist auf jedem Bildschirm
+/// dasselbe Verhältnis.
+class _PlayerBodyLayout extends MultiChildLayoutDelegate {
+  /// Abstand zwischen Cover und Titel.
+  static const _gap = 20.0;
+
+  /// Mindestabstand oben (unter der Kopfzeile) und unten (zum Rand).
+  static const _minTop = 12.0;
+  static const _minBottom = 16.0;
+
+  @override
+  void performLayout(Size size) {
+    final controls = layoutChild(
+      _PlayerSlot.controls,
+      BoxConstraints(minWidth: size.width, maxWidth: size.width),
+    );
+    final room = size.height - controls.height - _gap - _minTop - _minBottom;
+    final cover = math.max(0.0, math.min(size.width, room));
+    layoutChild(_PlayerSlot.cover, BoxConstraints.tight(Size.square(cover)));
+
+    // Übrigen Platz halbieren (Regel 3).
+    final free = math.max(0.0, room - cover);
+    final coverTop = _minTop + free / 2;
+    positionChild(
+      _PlayerSlot.cover,
+      Offset((size.width - cover) / 2, coverTop),
+    );
+    positionChild(_PlayerSlot.controls, Offset(0, coverTop + cover + _gap));
+  }
+
+  @override
+  bool shouldRelayout(_PlayerBodyLayout oldDelegate) => false;
 }
